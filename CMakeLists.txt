@@ -63,13 +63,16 @@ target_link_libraries(
 )
 
 # --- Add Executables ---
-file(GLOB testfiles "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp")
-foreach(file ${testfiles})
-    # message(${file})
-    get_filename_component(testname ${file} NAME_WE)
-    add_executable(${testname} ${file})
-    target_link_libraries( ${testname} PUBLIC ${PROJECT_NAME})
-endforeach(file ${testfiles})
+if (NOT DEFINED INSTALL_STURDIO_EXAMPLES OR NOT INSTALL_STURDIO_EXAMPLES)
+else()
+    file(GLOB testfiles "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp")
+    foreach(file ${testfiles})
+        # message(${file})
+        get_filename_component(testname ${file} NAME_WE)
+        add_executable(${testname} ${file})
+        target_link_libraries( ${testname} PUBLIC ${PROJECT_NAME})
+    endforeach(file ${testfiles})
+endif()
 
 # --- Make Library 'Findable' for other CMake Packages ---
 include(CMakePackageConfigHelpers)
