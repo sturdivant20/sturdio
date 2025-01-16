@@ -23,12 +23,10 @@ class BinaryFile {
   /**
    * *=== BinaryFile ===*
    * @brief constructor
-   * @param fname string containing signal file name (if path and fname_ is one string, this
-   * is the only input)
-   * @param fpath string containing path to signal file
+   * @param fname string containing signal file name
    */
-  BinaryFile(const std::string fname, const std::string fpath);
   BinaryFile(const std::string fname);
+  BinaryFile();
 
   /**
    * *=== ~BinaryFile ===*
@@ -121,6 +119,7 @@ class BinaryFile {
    * @return True|False based upon opening success
    */
   bool fopen();
+  bool fopen(const std::string fname);
 
   /**
    * *=== fclose ===*

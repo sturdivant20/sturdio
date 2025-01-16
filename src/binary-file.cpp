@@ -11,19 +11,13 @@
 
 #include "sturdio/binary-file.hpp"
 
-#include <sstream>
-
 namespace sturdio {
 
 // *=== BinaryFile ===*
-BinaryFile::BinaryFile(const std::string fname, const std::string fpath) {
-  std::stringstream tmp;
-  tmp << fpath << "/" << fname;
-  fname_ = tmp.str();
-  fopen();
-}
 BinaryFile::BinaryFile(const std::string fname) : fname_{fname} {
   fopen();
+}
+BinaryFile::BinaryFile() {
 }
 
 // *=== ~BinaryFile ===*
@@ -45,6 +39,10 @@ bool BinaryFile::fopen() {
               << "\n";
     return false;
   }
+}
+bool BinaryFile::fopen(const std::string fname) {
+  fname_ = fname;
+  return fopen();
 }
 
 // *=== fclose ===*

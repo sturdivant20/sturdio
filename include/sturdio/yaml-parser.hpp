@@ -24,10 +24,9 @@ class YamlParser {
    * *=== YamlParser ===*
    * @brief Constructor
    * @param fname string containing yaml file name
-   * @param fpath (optional) string containing yaml file path (directory)
    */
-  YamlParser(const std::string fname, const std::string fpath);
   YamlParser(const std::string fname);
+  YamlParser();
 
   /**
    * *=== ~YamlParser ===*
@@ -43,6 +42,7 @@ class YamlParser {
    *           groupings distinctions
    */
   void parse();
+  void parse(const std::string fname);
 
   /**
    * *=== Exists ===*

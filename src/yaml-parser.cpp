@@ -16,17 +16,11 @@
 namespace sturdio {
 
 // *=== YamlParser ===*
-YamlParser::YamlParser(const std::string fname, const std::string fpath) {
-  std::stringstream tmp;
-  tmp << fpath << "/" << fname;
-  fname_ = tmp.str();
-
-  // parse file
-  parse();
-}
 YamlParser::YamlParser(const std::string fname) : fname_{fname} {
   // parse file
   parse();
+}
+YamlParser::YamlParser() {
 }
 
 // *=== ~YamlParser ===*
@@ -74,6 +68,10 @@ void YamlParser::parse() {
   } catch (std::exception const &e) {
     std::cerr << "yaml-parser.cpp YamlParser::parse failed. Error -> " << e.what() << "\n";
   }
+}
+void YamlParser::parse(const std::string fname) {
+  fname_ = fname;
+  parse();
 }
 
 // *=== Exists ===*
