@@ -64,7 +64,7 @@ class YamlParser {
       // make sure variable exists
       if (Exists(name)) {
         std::istringstream iss(root_[name]);
-        iss >> val;
+        iss >> std::boolalpha >> val;
         return true;
       } else {
         std::cerr << "yaml-parser.hpp YamlParser::GetVar no keyword " << name << " in file!\n";
