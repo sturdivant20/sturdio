@@ -27,11 +27,12 @@ set(PROJECT_VERSION ${STURDIO_MAJOR_VERSION}.${STURDIO_MINOR_VERSION}.${STURDIO_
 message(STATUS "${BoldCyan}${PROJECT_NAME} version ${PROJECT_VERSION}${Reset}")
 
 # --- Compiler Flags ---
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "-g -W")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Ofast -ffast-math -fomit-frame-pointer -fstrict-aliasing -flto -DNDEBUG -march=native")
+# set(CMAKE_CXX_STANDARD 20)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+# set(CMAKE_CXX_FLAGS_DEBUG "-g -W")
+# # set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Ofast -ffast-math -fomit-frame-pointer -fstrict-aliasing -flto -DNDEBUG -march=native")
+# set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Ofast -ffast-math")
 
 # --- Add Dependencies ---
 # find_package(spdlog REQUIRED)
