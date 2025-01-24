@@ -12,6 +12,7 @@
 #ifndef STURDIO_BINARY_FILE_HPP
 #define STURDIO_BINARY_FILE_HPP
 
+#include <complex>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -57,6 +58,22 @@ class BinaryFile {
       return false;
     }
   };
+  template <typename T>
+  bool freadc(std::complex<T> *buffer, const int len) {
+    try {
+      if (!fid_.is_open() || fid_.bad()) {
+        std::cerr << "binary-file.hpp BinaryFile::freadc bad signal file.\n";
+        return false;
+      }
+      // read into standard array
+      fid_.read(reinterpret_cast<char *>(buffer), len * sizeof(std::complex<T>));
+      return true;
+    } catch (std::exception const &e) {
+      std::cerr << "binary-file.hpp BinaryFile::freadc unable to read file. Error -> " << e.what()
+                << "\n";
+      return false;
+    }
+  };
 
   /**
    * *=== fseek ===*
@@ -77,6 +94,22 @@ class BinaryFile {
     } catch (std::exception const &e) {
       std::cerr << "binary-file.hpp BinaryFile::fseek unable to seek in file. Error -> " << e.what()
                 << "\n";
+      return false;
+    }
+  };
+  template <typename T>
+  bool fseekc(const int len) {
+    try {
+      if (!fid_.is_open() || fid_.bad()) {
+        std::cerr << "binary-file.hpp BinaryFile::fseekc bad signal file.";
+        return false;
+      }
+      // seek to sample
+      fid_.seekg(len * sizeof(std::complex<T>), fid_.beg);
+      return true;
+    } catch (std::exception const &e) {
+      std::cerr << "binary-file.hpp BinaryFile::fseekc unable to seek in file. Error -> "
+                << e.what() << "\n";
       return false;
     }
   };
@@ -107,6 +140,31 @@ class BinaryFile {
   int ftell() {
     int location;
     if (ftell<T>(location)) {
+      return location;
+    } else {
+      return -1;
+    }
+  };
+  template <typename T>
+  bool ftellc(int &location) {
+    try {
+      if (!fid_.is_open() || fid_.bad()) {
+        std::cerr << "binary-file.hpp BinaryFile::ftell bad signal file.";
+        return false;
+      }
+      // tell sample
+      location = fid_.tellg() / sizeof(std::complex<T>);
+      return true;
+    } catch (std::exception const &e) {
+      std::cerr << "binary-file.hpp BinaryFile::ftell unable to tell in file. Error -> " << e.what()
+                << "\n";
+      return false;
+    }
+  };
+  template <typename T>
+  int ftellc() {
+    int location;
+    if (ftellc<T>(location)) {
       return location;
     } else {
       return -1;
