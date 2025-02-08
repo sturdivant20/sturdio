@@ -12,11 +12,19 @@
 #ifndef STURDIO_YAML_PARSER_HPP
 #define STURDIO_YAML_PARSER_HPP
 
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <sstream>
+#include <vector>
 
 namespace sturdio {
+
+template <typename>
+struct is_std_vector : std::false_type {};
+
+template <typename T, typename A>
+struct is_std_vector<std::vector<T, A>> : std::true_type {};
 
 class YamlParser {
  public:
@@ -63,8 +71,33 @@ class YamlParser {
     try {
       // make sure variable exists
       if (Exists(name)) {
-        std::istringstream iss(root_[name]);
-        iss >> std::boolalpha >> val;
+        // check if desired output is a  std::vector
+        if constexpr (is_std_vector<T>::value) {
+          // remove "[]- " characters
+          std::string unwanted_char = "[] ";
+          root_[name].erase(
+              std::remove_if(
+                  root_[name].begin(),
+                  root_[name].end(),
+                  [&](char c) { return unwanted_char.find(c) != std::string::npos; }),
+              root_[name].end());
+
+          // create stringstream (delimiter must be space)
+          std::replace(root_[name].begin(), root_[name].end(), ',', ' ');
+          std::istringstream iss(root_[name]);
+          iss >> std::boolalpha;
+
+          // read items into std::vector
+          using VecType = T::value_type;
+          VecType item;
+          while (iss >> item) {
+            val.push_back(item);
+          }
+
+        } else {
+          std::istringstream iss(root_[name]);
+          iss >> std::boolalpha >> val;
+        }
         return true;
       } else {
         std::cerr << "yaml-parser.hpp YamlParser::GetVar no keyword " << name << " in file!\n";
