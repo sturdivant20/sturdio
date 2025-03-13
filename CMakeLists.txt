@@ -64,7 +64,7 @@ target_link_libraries(
 )
 
 # --- Add Executables ---
-if (NOT DEFINED INSTALL_STURDIO_EXAMPLES OR NOT INSTALL_STURDIO_EXAMPLES)
+if (NOT DEFINED INSTALL_STURDIO_TESTS OR NOT INSTALL_STURDIO_TESTS)
 else()
     file(GLOB testfiles "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp")
     foreach(file ${testfiles})
