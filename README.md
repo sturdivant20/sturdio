@@ -1,3 +1,3 @@
 # [SturdIO](https://github.com/sturdivant20/sturdio/)
 
-Basic file reading/writing utilities
+Daniel Sturdivant's basic file reading/writing utilities

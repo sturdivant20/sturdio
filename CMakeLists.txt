@@ -27,12 +27,12 @@ set(PROJECT_VERSION ${STURDIO_MAJOR_VERSION}.${STURDIO_MINOR_VERSION}.${STURDIO_
 message(STATUS "${BoldCyan}${PROJECT_NAME} version ${PROJECT_VERSION}${Reset}")
 
 # --- Compiler Flags ---
-# set(CMAKE_CXX_STANDARD 20)
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-# set(CMAKE_CXX_FLAGS_DEBUG "-g -W")
-# # set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Ofast -ffast-math -fomit-frame-pointer -fstrict-aliasing -flto -DNDEBUG -march=native")
-# set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Ofast -ffast-math")
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -W")
+# set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Ofast -ffast-math -fomit-frame-pointer -fstrict-aliasing -flto -DNDEBUG -march=native")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -march=native")
 
 # --- Add Dependencies ---
 # find_package(spdlog REQUIRED)
@@ -62,6 +62,7 @@ target_link_libraries(
     ${PROJECT_NAME} PUBLIC
     # spdlog::spdlog
 )
+set_target_properties(${PROJECT_NAME} PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 # --- Add Executables ---
 if (NOT DEFINED INSTALL_STURDIO_TESTS OR NOT INSTALL_STURDIO_TESTS)
@@ -113,3 +114,13 @@ install(
     FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
     DESTINATION lib/cmake/${PROJECT_NAME}
 )
+
+# --- Python ---
+if (NOT DEFINED INSTALL_PYTHON OR INSTALL_PYTHON)
+    find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+    find_package(pybind11 CONFIG REQUIRED)
+    python_add_library(_sturdio_core MODULE src/sturdio-python.cpp WITH_SOABI)
+    target_link_libraries(_sturdio_core PRIVATE pybind11::headers ${PROJECT_NAME})
+    target_compile_definitions(_sturdio_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
+    install(TARGETS _sturdio_core DESTINATION sturdio)
+endif()
