@@ -115,12 +115,12 @@ install(
     DESTINATION lib/cmake/${PROJECT_NAME}
 )
 
-# --- Python ---
-if (NOT DEFINED INSTALL_PYTHON OR INSTALL_PYTHON)
-    find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
-    find_package(pybind11 CONFIG REQUIRED)
-    python_add_library(_sturdio_core MODULE src/sturdio-python.cpp WITH_SOABI)
-    target_link_libraries(_sturdio_core PRIVATE pybind11::headers ${PROJECT_NAME})
-    target_compile_definitions(_sturdio_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
-    install(TARGETS _sturdio_core DESTINATION sturdio)
-endif()
+# # --- Python ---
+# if (NOT DEFINED INSTALL_PYTHON OR INSTALL_PYTHON)
+#     find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+#     find_package(pybind11 CONFIG REQUIRED)
+#     python_add_library(_sturdio_core MODULE src/sturdio-python.cpp WITH_SOABI)
+#     target_link_libraries(_sturdio_core PRIVATE pybind11::headers ${PROJECT_NAME})
+#     target_compile_definitions(_sturdio_core PRIVATE VERSION_INFO=${PROJECT_VERSION})
+#     install(TARGETS _sturdio_core DESTINATION sturdio)
+# endif()
